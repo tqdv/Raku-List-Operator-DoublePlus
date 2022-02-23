@@ -1,6 +1,6 @@
 use v6;
 
-unit module List::Operator::DoublePlus:auth<github:tqdv>:ver<0.1.0>:api<1>;
+unit module List::Operator::DoublePlus:auth<zef:tqdv>:ver<0.1.0>:api<1>;
 
 our proto concat(|) is export(:sub) {*}
 multi sub concat(@a, @b --> List) { |@a, |@b }
