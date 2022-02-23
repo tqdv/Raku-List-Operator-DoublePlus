@@ -1,0 +1,52 @@
+use lib 'lib';
+use Test;
+
+use List::Operator::DoublePlus;
+
+my $type-tests = 4 + 4 + 4;
+my $multiarg-tests = 2 + 2;
+my $positional-tests = 3;
+my $difftype-tests = 2;
+plan $type-tests + $multiarg-tests + $positional-tests + $difftype-tests;
+
+# List tests
+
+is-deeply     (1, 2) ++ (3, 4),     (1, 2, 3, 4),  "List ++ List";
+is-deeply  (1, 2, 3) ++ (),         (1, 2, 3),     "List ++ ()";
+is-deeply         () ++ (1, 2, 3),  (1, 2, 3),     "() ++ List";
+is-deeply         () ++ (),         (),            "() ++ ()";
+
+# Array tests
+
+is-deeply  [11, 12] ++ [13, 14, 15],  [11, 12, 13, 14, 15],  "Array ++ Array";
+is-deeply  [11, 12] ++ [],            [11, 12],              "Array ++ []";
+is-deeply        [] ++ [11, 12],      [11, 12],              "[] ++ Array";
+is-deeply        [] ++ [],            [],                    "[] ++ []";
+
+# Slip tests
+
+is-deeply        slip(5) ++ slip(6),        slip(5, 6),     "Slip ++ Slip"; 
+is-deeply  slip(5, 6, 7) ++ Empty,          slip(5, 6, 7),  "Slip ++ Empty"; 
+is-deeply          Empty ++ slip(5, 6, 7),  slip(5, 6, 7),  "Empty ++ Slip"; 
+is-deeply          Empty ++ Empty,          Empty,          "Empty ++ Empty";
+
+# Nested tests
+
+is-deeply  ('a', ('b1', 'b2'), 'c') ++ ('d', 'e'),  ('a', ('b1', 'b2'), 'c', 'd', 'e'),  "Nested list";
+is-deeply  ['A', ['B1', 'B2'], 'C'] ++ ['D', 'E'],  ['A', ['B1', 'B2'], 'C', 'D', 'E'],  "Nested array";
+
+# Chained tests
+
+is-deeply  (1, 2) ++ (3, 4) ++ (5, 6),                (1, 2, 3, 4, 5, 6),    ". ++ . ++ .";
+is-deeply  ([++] (1, 3), (5, 7), (9, 11), (13, 15)),  (1,3,5,7,9,11,13,15),  "[++] ...";
+
+# Other Positionals (and Seq using PositionalBindFailover)
+
+is-deeply  (1...2) ++ (3...4),  (1, 2, 3, 4),  "Seq ++ Seq --> List";
+is-deeply  Blob.new(0x41) ++ Blob.new(0x64, 0x6F),  (0x41, 0x64, 0x6F),  "Blob ++ Blob --> List";
+is-deeply  (1..2) ++ (5..6),  (1, 2, 5, 6),  "Range ++ Range --> List";
+
+# Different type tests
+
+is-deeply      [1] ++ (2,),    (1, 2),  "Array ++ List --> List";
+is-deeply  (5...5) ++ (6..6),  (5, 6),  "Seq ++ Range --> List";

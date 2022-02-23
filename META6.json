@@ -1,0 +1,16 @@
+{
+	"perl": "6.c",
+	"name": "List::Operator::DoublePlus",
+	"auth": "github:tqdv",
+	"version": "0.1.0",
+	"api": "1",
+	"description": "Another operator for list concatenation",
+	"authors": [ "Tilwa Qendov" ],
+	"license": "Artistic-2.0",
+	"provides": {
+		"List::Operator::DoublePlus": "lib/List/Operator/DoublePlus.rakumod"
+	},
+	"depends": [],
+	"tags": [ "List", "Operator" ],
+	"source-url": "git://github.com/tqdv/Raku-List-Operator-DoublePlus.git"
+}
